@@ -1,0 +1,82 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "数据库查询",
+    "description": "用中文查询你的数据库。",
+    "version": "v0.0.1"
+  },
+  "servers": [{ "url": "gptaction.iaiuse.com"}],
+  "paths": {
+    "/api/query": {
+      "post": {
+        "description": "执行一个 MySQL 查询以检索数据。",
+        "operationId": "mysql_query",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/mysql_queryRequestSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "description": "查询结果"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "mysql_queryRequestSchema": {
+        "properties": {
+          "host": {
+            "type": "string",
+            "title": "主机",
+            "description": "数据库主机"
+          },
+          "user": {
+            "type": "string",
+            "title": "用户",
+            "description": "数据库用户"
+          },
+          "password": {
+            "type": "string",
+            "title": "密码",
+            "description": "数据库密码"
+          },
+          "database": {
+            "type": "string",
+            "title": "数据库",
+            "description": "数据库名称"
+          },
+          "query": {
+            "type": "string",
+            "title": "查询",
+            "description": "将要执行的 MySQL 查询"
+          }
+        },
+        "type": "object",
+        "required": ["host", "user", "password", "database", "query"],
+        "title": "mysql_queryRequestSchema"
+      }
+    }
+  }
+}
