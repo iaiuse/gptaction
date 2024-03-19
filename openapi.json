@@ -5,18 +5,18 @@
     "description": "用中文查询你的数据库。",
     "version": "v0.0.1"
   },
-  "servers": [{ "url": "gptaction.iaiuse.com"}],
+  "servers": [{ "url": "https://gptaction.iaiuse.com"}],
   "paths": {
     "/api/query": {
       "post": {
-        "description": "执行一个 MySQL 查询以检索数据。",
-        "operationId": "mysql_query",
+        "description": "执行一个 pq 查询以检索数据。",
+        "operationId": "pg_query",
         "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/mysql_queryRequestSchema"
+                "$ref": "#/components/schemas/pgsql_queryRequestSchema"
               }
             }
           },
@@ -45,7 +45,7 @@
   },
   "components": {
     "schemas": {
-      "mysql_queryRequestSchema": {
+      "pgsql_queryRequestSchema": {
         "properties": {
           "host": {
             "type": "string",
@@ -70,12 +70,12 @@
           "query": {
             "type": "string",
             "title": "查询",
-            "description": "将要执行的 MySQL 查询"
+            "description": "将要执行的 pq 查询"
           }
         },
         "type": "object",
         "required": ["host", "user", "password", "database", "query"],
-        "title": "mysql_queryRequestSchema"
+        "title": "pgsql_queryRequestSchema"
       }
     }
   }
