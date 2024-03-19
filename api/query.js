@@ -1,6 +1,5 @@
 // /api/query.js
-const mysql = require('mysql');
-const util = require('util');
+const { Pool } = require('pg');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -9,22 +8,21 @@ module.exports = async (req, res) => {
 
   const { host, user, password, database, query } = req.body;
 
-  const connection = mysql.createConnection({
+  // 创建连接池
+  const pool = new Pool({
     host,
     user,
     password,
-    database
+    database,
+    port: 5432, // PostgreSQL 默认端口
   });
 
-  const connect = util.promisify(connection.connect).bind(connection);
-  const queryAsync = util.promisify(connection.query).bind(connection);
-
   try {
-    await connect();
-    const results = await queryAsync(query);
-    connection.end();
+    // 使用连接池查询
+    const { rows } = await pool.query(query);
+    // 不需要显式关闭连接，连接池会管理连接
 
-    res.json({ result: results });
+    res.json({ result: rows });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
