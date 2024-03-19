@@ -3,6 +3,9 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 
+// 导入 query 处理函数
+const handleQuery = require('./query');
+
 const app = express();
 app.use(express.json());
 
@@ -24,21 +27,8 @@ app.get('/openapi.json', (req, res) => {
     res.sendFile(filePath);
 });
 
-// 假设的数据库查询处理
-app.post('/api/query', async (req, res) => {
-    try {
-        // 模拟数据库查询
-        const { query } = req.body; // 这里假设您的请求体中包含查询语句
-
-        // 实际的数据库查询逻辑应该在这里实现
-        // const result = await db.query(query);
-
-        // 发送假设的响应
-        res.json({ result: "这里是查询结果" });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+// 使用 query.js 处理 /api/query 路径
+app.post('/api/query', handleQuery);
 
 
 // 启动服务
