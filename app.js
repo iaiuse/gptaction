@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // 导入 query 处理函数
-const handleQuery = require('./query');
+const handleQuery = require('./api/query');
 
 const app = express();
 app.use(express.json());
